@@ -1,4 +1,35 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "eslint": "eslint --ext .js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ana446/LIM015-md-links.git"
+  },
+  "keywords": [
+    "markdown",
+    "node",
+    "utility"
+  ],
+  "author": "marlene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ana446/LIM015-md-links/issues"
+  },
+  "homepage": "https://github.com/ana446/LIM015-md-links#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^26.6.3"
+  }
 }
