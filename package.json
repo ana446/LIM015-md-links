@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "jest --verbose --coverage",
-    "eslint": "eslint --ext .js"
+    "eslint": "eslint --ext .js",
+    "cli": "node src/cli.js"
   },
   "dependencies": {
     "node-fetch": "^2.6.1"
@@ -24,6 +25,9 @@
   ],
   "author": "marlene",
   "license": "ISC",
+  "bin": {
+    "md-links": "src/cli.js"
+  },
   "bugs": {
     "url": "https://github.com/ana446/LIM015-md-links/issues"
   },
