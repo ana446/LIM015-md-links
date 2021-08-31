@@ -1,14 +1,18 @@
 {
   "name": "md-links",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Library that checks the status of the links in a .md files",
+  "main": "./lib/cli.js",
+  "bin": {
+    "md-links": "src/cli.js"
+  },
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "jest --verbose --coverage",
-    "eslint": "eslint --ext .js"
+    "eslint": "eslint --ext .js",
+    "cli": "node src/cli.js"
   },
   "dependencies": {
     "node-fetch": "^2.6.1"
@@ -20,9 +24,9 @@
   "keywords": [
     "markdown",
     "node",
-    "utility"
+    "npm"
   ],
-  "author": "marlene",
+  "author": "marlene OR",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ana446/LIM015-md-links/issues"

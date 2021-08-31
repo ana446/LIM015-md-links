@@ -1,53 +1,54 @@
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
-
-
-
-//convierte una ruta relativa a absoluta
+const chalk = require('chalk');
+//converts a relative path to absolute
 const isValidateAbsolute = (inputFilePath) => {
-  const normalizedPath = path.normalize(inputFilePath);
-  return path.isAbsolute(normalizedPath) ? normalizedPath : path.resolve(normalizedPath);
+  
+    const normalizedPath = path.normalize(inputFilePath);
+    return path.isAbsolute(normalizedPath) ? normalizedPath : path.resolve(normalizedPath);
+  
 };
-const prueba = isValidateAbsolute('src');
-// console.log(prueba);
 
+//path exist
+const existInputFilePath = (inputFilePath) => fs.existsSync(inputFilePath);
 
-//función de recursividad para recorrer todos los directorios
-// const existInputFilePath = (inputFilePath) => fs.existsSync(inputFilePath);
+// //is directory
+const validateDirectory  = (inputFilePath) => fs.statSync(inputFilePath).isDirectory();
 
+//recursion function to loop through all directories
 const getAllFiles = (inputFilePath, arrayOfFiles) => {
-  files = fs.readdirSync(inputFilePath);
   arrayOfFiles = arrayOfFiles || [];
-  files.forEach((file) => {
+  if(fs.statSync(inputFilePath).isDirectory()){
+    files = fs.readdirSync(inputFilePath);
+    files.forEach((file) => {
+      // console.log(file)
     if (fs.statSync(inputFilePath + '/' + file).isDirectory()) {
-      arrayOfFiles = getAllFiles(inputFilePath + '/' + file, arrayOfFiles);
+     arrayOfFiles = getAllFiles(inputFilePath + '/' + file, arrayOfFiles);
     } else {
-      arrayOfFiles.push(path.join(inputFilePath, file));
+    arrayOfFiles.push(path.join(inputFilePath, file));
     }
   })
   return arrayOfFiles;
+  }else{
+    return inputFilePath.split();
+  }
 };
-const result = getAllFiles(prueba);
-// console.log(typeof result);
-// console.log(result);
 
 //obtener todos los archivos .md
 const getAllFilesMd = (inputFilePath, arrayOfFilesMd) => {
-  arrayOfFilesMd = arrayOfFilesMd || [];
-  inputFilePath.map((file) => {
-    const filesMd = path.extname(file);
-    if (filesMd === '.md') {
-      arrayOfFilesMd.push(path.join(file));
-    };
-
-  })
-  return arrayOfFilesMd;
+  arrayOfFilesMdd = arrayOfFilesMd || [];
+  if(inputFilePath.length > 0) {
+    inputFilePath.map((file) => {
+      const filesMd = path.extname(file);
+      if (filesMd === '.md') {
+         arrayOfFilesMdd.push(path.join(file));
+      }
+    })
+    return arrayOfFilesMdd
+  }
 }
-const arrOffMD = getAllFilesMd(result);
-// console.log(getAllFilesMd(result));
-// const esDirectorio = fs.readdirSync('D:\\Laboratoria\\LIM015-md-links\\src');
-// console.log(esDirectorio);
+
 //match(/https*?:([^"')\s]+)/)[0] (Match para url)
 // match(/\[(.*)\]/)[1].substr(0, 49)    (Match para texto)
 // /\[(.*)\]/)[1]/https*?:([^"')\s]+)/   Valores por defecto
@@ -55,7 +56,6 @@ const arrOffMD = getAllFilesMd(result);
 //Leer un archivo e imprimir en consola 
 const getAllLinksOfMd = (arrayOfFilesMd, linksOfFilesMd) => {
   linksOfFilesMd = linksOfFilesMd || [];
-
   arrayOfFilesMd.map((fileOfMD) => {
     const allInfoMd = /\[(.*)\]\((https*?:([^"')\s]+))/mg;
     const contentOfMd = fs.readFileSync(fileOfMD, 'utf8');
@@ -74,36 +74,29 @@ const getAllLinksOfMd = (arrayOfFilesMd, linksOfFilesMd) => {
         linksOfFilesMd.push(arrayOfInfoFilesMd);
       });
     };
-    
   });
   return linksOfFilesMd;
 };
-// const arrLinks= getAllLinksOfMd(arrOffMD)[0].href;
-const arrLinkss= getAllLinksOfMd(arrOffMD);
-// console.log(arrLinkss);
 
+//get all status 
 const getAllStatus = (arrLinks) => {
   const statusOfLinks = arrLinks.map((element) => 
-     fetch(element)
-    .then((res)=>{
+   fetch(element)
+   .then((res)=>{
       element.status = res.status;
-      element.ok = res.status === 200 ? 'ok' :'failed';
+      element.ok = (res.status >= 200) && (res.status <= 399) ? 'ok' :'fail';
       return element;
     }) 
-    .catch((err) => {
-      console.log(err.message);
+   .catch(() => {
+          return {
+          href: element.href,
+          text: element.text,
+          file: element.file,
+          status: 'not found',
+          ok: 'fail'
+     }      
     })
   )
-  
-  return statusOfLinks;
+ return Promise.all(statusOfLinks);
 }
-const answerOfStatus = getAllStatus(arrLinkss);
-
-Promise.all(answerOfStatus).then((allArrayOfStatus)=>{
-  console.log(allArrayOfStatus)
-} );
-
-//status
-
-
-module.exports = { isValidateAbsolute, getAllFiles, getAllFilesMd,getAllStatus };
+module.exports = {existInputFilePath,validateDirectory, isValidateAbsolute, getAllFiles, getAllFilesMd, getAllLinksOfMd, getAllStatus};
