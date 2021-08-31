@@ -1,3 +1,3 @@
 - [learnyounode learnyounode learnyounode learnyounode](https://github.con/workshopper/learnyounode)
 - [how-to-npm](https://github.com/workshopper/how-to-npm)
-  holslsdkskjdfnskd
+- [Array.prototype.reduce() - MDN](https://developer.mozilla.org/es/docs/JavaScript/Reference/Global_Objects/Array/Reduce)
