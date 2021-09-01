@@ -9,7 +9,7 @@
 
 ## 1. Resumen del proyecto
 
-Md-links es una libreria desarrollada con [Node.js](https://nodejs.org/), que lea y analice archivos
+Md-links es una libreria desarrollada con [Node.js](https://nodejs.org/), que lee y analiza archivos
 en formato `Markdown`, para verificar los links que contengan y reportar
 algunas estadísticas.
 
