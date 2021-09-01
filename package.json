@@ -1,6 +1,6 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
+  "name": "anaorihuela-md-links",
+  "version": "1.0.0",
   "description": "Library that checks the status of the links in a .md files",
   "main": "./lib/cli.js",
   "bin": {
